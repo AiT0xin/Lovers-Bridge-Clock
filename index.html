@@ -136,8 +136,7 @@
 <!-- pusher (~8 o'clock) — a plain rectangular button, seated on the case edge -->
 <g id="pusher" transform="rotate(60 970 940)" style="cursor:pointer">
   <title>Press — the lovers meet and kiss</title>
-  <rect x="946" y="1360" width="48" height="20" fill="url(#wgCase)"/>
-  <rect id="pusherCap" x="938" y="1376" width="64" height="46" rx="9"
+  <rect id="pusherCap" x="928" y="1336" width="84" height="46" rx="10"
         fill="url(#wgCase)" stroke="#98a1b0" stroke-width="2"/>
 </g>
 
@@ -605,8 +604,8 @@ function pushBlend(now){
   g.addEventListener("click",ev=>{
     ev.stopPropagation();                 // never counts toward the triple-click
     PUSH.at=performance.now();
-    cap.setAttribute("y","1384");         // the button travels in, then springs back
-    setTimeout(()=>cap.setAttribute("y","1376"),140);
+    cap.setAttribute("y","1330");         // travels inward toward the case, then springs back
+    setTimeout(()=>cap.setAttribute("y","1336"),140);
   });
 })();
 
