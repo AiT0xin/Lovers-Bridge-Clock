@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lovers' Bridge — retrograde clock</title>
+<style>
+  :root{ color-scheme: light dark; }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:transparent}
+  body{
+    display:grid; place-items:center;
+    font-family:"Didot","Bodoni MT","Hoefler Text",Georgia,serif;
+    transition:background-color .35s ease;
+  }
+  html.dark-bg,body.dark-bg{background-color:#191919}
+  figure{margin:0;width:min(96vmin,900px);cursor:default;-webkit-user-select:none;user-select:none}
+  svg{display:block;width:100%;height:auto}
+</style>
+</head>
+<body>
+<figure>
+<svg id="watch" viewBox="486 480 1000 920" role="img"
+     aria-label="Wristwatch with retrograde hours and minutes shown by two figures walking along a bridge, synchronised to atomic time">
+<defs>
+  <!-- ============ metals ============ -->
+  <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0"    stop-color="#ffffff"/>
+    <stop offset=".34"  stop-color="#f2f3f6"/>
+    <stop offset=".66"  stop-color="#d7dae1"/>
+    <stop offset="1"    stop-color="#b6bbc6"/>
+  </linearGradient>
+  <linearGradient id="wgFlat" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0"   stop-color="#fdfdfe"/>
+    <stop offset=".55" stop-color="#e6e8ed"/>
+    <stop offset="1"   stop-color="#c4c8d2"/>
+  </linearGradient>
+  <!-- light silver: one gentle top-to-bottom fall, no specular banding -->
+  <linearGradient id="wgCase" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#eef1f6"/>
+    <stop offset="1" stop-color="#bfc7d4"/>
+  </linearGradient>
+  <linearGradient id="wgRail" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0"   stop-color="#f6f9fd"/>
+    <stop offset=".45" stop-color="#c2cad8"/>
+    <stop offset="1"   stop-color="#7f8899"/>
+  </linearGradient>
+  <!-- frosted / sandblasted gold used on the bridge deck -->
+  <linearGradient id="frost" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0"   stop-color="#f7f8fa"/>
+    <stop offset=".45" stop-color="#e2e5ea"/>
+    <stop offset="1"   stop-color="#c8ccd4"/>
+  </linearGradient>
+
+  <!-- ============ diamonds ============ -->
+  <radialGradient id="dia" cx=".36" cy=".3" r=".78">
+    <stop offset="0"   stop-color="#ffffff"/>
+    <stop offset=".34" stop-color="#f6f8fb"/>
+    <stop offset=".68" stop-color="#dfe5ee"/>
+    <stop offset=".88" stop-color="#f4f7fb"/>
+    <stop offset="1"   stop-color="#c3ccda"/>
+  </radialGradient>
+  <radialGradient id="diaSm" cx=".38" cy=".32" r=".76">
+    <stop offset="0"   stop-color="#ffffff"/>
+    <stop offset=".6"  stop-color="#e8ecf3"/>
+    <stop offset="1"   stop-color="#c6cedc"/>
+  </radialGradient>
+
+  <!-- ============ strap ============ -->
+  <linearGradient id="strap" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0"    stop-color="#0a1024"/>
+    <stop offset=".16"  stop-color="#182746"/>
+    <stop offset=".5"   stop-color="#22305a"/>
+    <stop offset=".86"  stop-color="#131c3a"/>
+    <stop offset="1"    stop-color="#080d1e"/>
+  </linearGradient>
+
+  <!-- ============ dial sky ============ -->
+  <radialGradient id="sky" cx=".5" cy=".22" r=".95">
+    <stop offset="0"   stop-color="#16233c"/>
+    <stop offset=".3"  stop-color="#0d1729"/>
+    <stop offset=".62" stop-color="#0a1120"/>
+    <stop offset="1"   stop-color="#060a15"/>
+  </radialGradient>
+
+  <filter id="airbrush" x="-12%" y="-12%" width="124%" height="124%">
+    <feGaussianBlur stdDeviation="3.2"/>
+  </filter>
+  <filter id="softglow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="9"/>
+  </filter>
+  <filter id="figShadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity=".55"/>
+  </filter>
+  <filter id="caseShadow" x="-25%" y="-25%" width="150%" height="150%">
+    <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#1a1d26" flood-opacity=".3"/>
+  </filter>
+
+  <clipPath id="dialClip"><circle cx="970" cy="940" r="366"/></clipPath>
+
+  <radialGradient id="vignette" cx=".5" cy=".42" r=".72">
+    <stop offset="0"   stop-color="#000" stop-opacity="0"/>
+    <stop offset=".68" stop-color="#000" stop-opacity="0"/>
+    <stop offset="1"   stop-color="#000" stop-opacity=".55"/>
+  </radialGradient>
+
+  <linearGradient id="crystal" x1=".15" y1="0" x2=".7" y2="1">
+    <stop offset="0"   stop-color="#ffffff" stop-opacity=".16"/>
+    <stop offset=".34" stop-color="#ffffff" stop-opacity=".045"/>
+    <stop offset="1"   stop-color="#ffffff" stop-opacity="0"/>
+  </linearGradient>
+</defs>
+
+<!-- ================= CASE ================= -->
+<!-- r=424 against a 366 dial: a 58-wide bezel instead of the old 90 -->
+<g filter="url(#caseShadow)">
+  <circle cx="970" cy="940" r="424" fill="url(#wgCase)"/>
+  <circle cx="970" cy="940" r="424" fill="none" stroke="#98a1b0" stroke-width="3" opacity=".85"/>
+</g>
+
+<!-- diamond bezel -->
+<circle cx="970" cy="940" r="419" fill="none" stroke="url(#wgCase)" stroke-width="10"/>
+<g id="bezelStones"></g>
+
+<!-- crown (3 o'clock) — half the former size, fluting turned 90 degrees.
+     Drawn after the bezel so the stones can't overdraw the stem. -->
+<g id="crown">
+  <rect x="1390" y="898" width="46" height="84" rx="10" fill="url(#wgCase)"
+        stroke="#98a1b0" stroke-width="1.8"/>
+  <g id="crownRidges" opacity=".7"></g>
+  <!-- the nipple on the outer face -->
+  <rect x="1435" y="928" width="15" height="24" rx="7.5" fill="url(#wgCase)"
+        stroke="#98a1b0" stroke-width="1.4"/>
+</g>
+
+<circle cx="970" cy="940" r="372" fill="none" stroke="url(#wgCase)" stroke-width="12"/>
+<circle cx="970" cy="940" r="378" fill="none" stroke="#aab3c2" stroke-width="1.8" opacity=".6"/>
+<circle cx="970" cy="940" r="365" fill="none" stroke="#7d838f" stroke-width="2" opacity=".7"/>
+
+<!-- ================= DIAL ================= -->
+<g clip-path="url(#dialClip)">
+  <circle cx="970" cy="940" r="366" fill="url(#sky)"/>
+
+  <!-- distant city, airbrushed grisaille -->
+  <g filter="url(#airbrush)" id="city"></g>
+
+  <!-- stars -->
+  <g id="stars"></g>
+
+  <!-- moon + planet -->
+  <!-- centred on x=970: the gap between the 12 and the 60, and the exact point
+       where the lovers meet — so they kiss directly under it -->
+  <mask id="crescent">
+    <rect x="926" y="558" width="106" height="104" fill="#000"/>
+    <circle cx="976" cy="608" r="32" fill="#fff"/>
+    <circle cx="999" cy="597" r="28.5" fill="#000"/>
+  </mask>
+  <g id="moon">
+    <rect x="926" y="558" width="106" height="104" fill="#eef3fb" mask="url(#crescent)"
+          filter="url(#softglow)" opacity=".5"/>
+    <rect x="926" y="558" width="106" height="104" fill="#f2f6fd" mask="url(#crescent)"/>
+  </g>
+  <circle cx="1078" cy="588" r="9.5" fill="#e0902f"/>
+  <circle cx="1078" cy="588" r="9.5" fill="#e0902f" filter="url(#softglow)" opacity=".7"/>
+
+  <!-- ---- bridge understructure ---- -->
+  <g id="under">
+    <!-- dark void beneath the span -->
+    <path d="M735 1330 L735 1087 A 400 400 0 0 1 1205 1087 L1205 1330 Z" fill="#080e1c"/>
+    <!-- far bank + water, airbrushed -->
+    <g filter="url(#airbrush)">
+      <path d="M735 1330 L735 1210 Q 860 1160 970 1168 Q 1090 1176 1205 1206 L1205 1330 Z"
+            fill="#1b2b45"/>
+    </g>
+  </g>
+
+  <!-- riverside railing -->
+  <g id="railing" stroke="#93aac6" fill="none" stroke-linecap="round"></g>
+
+  <!-- foreground foliage -->
+  <g filter="url(#airbrush)" id="foliage"></g>
+
+  <!-- ---- abutments ---- -->
+  <g id="piers">
+    <path d="M540 1330 L540 1036 L737 1036 L737 1330 Z" fill="url(#frost)"/>
+    <path d="M1203 1330 L1203 1036 L1400 1036 L1400 1330 Z" fill="url(#frost)"/>
+    <!-- arched openings -->
+    <path d="M600 1330 L600 1176 Q 640 1128 680 1176 L680 1330 Z" fill="#070d1a"/>
+    <path d="M1260 1330 L1260 1176 Q 1300 1128 1340 1176 L1340 1330 Z" fill="#070d1a"/>
+    <path d="M700 1330 L700 1214 Q 722 1186 744 1214 L744 1330 Z" fill="#070d1a" opacity=".9"/>
+    <path d="M1196 1330 L1196 1214 Q 1218 1186 1240 1214 L1240 1330 Z" fill="#070d1a" opacity=".9"/>
+    <!-- cornice -->
+    <path d="M536 1030 L742 1030 L742 1062 L536 1062 Z" fill="url(#wgRail)"/>
+    <path d="M1198 1030 L1404 1030 L1404 1062 L1198 1062 Z" fill="url(#wgRail)"/>
+  </g>
+
+  <!-- ---- the span ---- -->
+  <g id="span"></g>
+  <g id="arcade"></g>
+
+  <!-- ---- the lovers ---- -->
+  <g id="lady"  filter="url(#figShadow)"></g>
+  <g id="gent"  filter="url(#figShadow)"></g>
+
+  <!-- retrograde scales, drawn last so an index is never lost behind a figure -->
+  <g id="scaleHours"  fill="#f3f6fb" font-size="31" text-anchor="middle" letter-spacing="0"></g>
+  <g id="scaleMins"   fill="#f3f6fb" font-size="31" text-anchor="middle" letter-spacing="0"></g>
+
+  <!-- inscription -->
+  <text x="970" y="1258" text-anchor="middle" fill="#e8eef8"
+        font-size="34" letter-spacing="2.4"
+        style="font-family:Didot,'Bodoni MT','Hoefler Text',Georgia,serif">Claude Made</text>
+
+  <circle cx="970" cy="940" r="366" fill="url(#vignette)" pointer-events="none"/>
+</g>
+
+<!-- crystal reflection -->
+<circle cx="970" cy="940" r="364" fill="url(#crystal)" pointer-events="none"/>
+</svg>
+</figure>
+
+<script>
+"use strict";
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a,p)=>{const n=document.createElementNS(NS,t);
+  for(const k in a)n.setAttribute(k,a[k]); if(p)p.appendChild(n); return n;};
+const $=id=>document.getElementById(id);
+
+/* ---------------- geometry constants ----------------
+   Everything on the dial that follows the bridge is polar about B. */
+const CX=970, CY=940;            // case / dial centre
+const BX=970, BY=1411;           // centre of the bridge's arc
+const R_DECK=531;                // top surface of the span (figures' feet)
+const R_SOFFIT=400;              // underside of the span
+const A_SPAN=47;                 // half-angle of the bridge itself
+
+const rad=d=>d*Math.PI/180;
+const pb=(a,r)=>[BX+r*Math.sin(rad(a)), BY-r*Math.cos(rad(a))];
+const fmt=p=>p[0].toFixed(2)+" "+p[1].toFixed(2);
+
+/* The scale is parameterised by t: 1 at the outer end of a run, T_IN where the
+   two runs almost meet under the moon. Numerals ride a flatter curve than the
+   bridge, so the lovers gain headroom as they climb toward the crest. */
+/* T_IN is set so the 12–60 gap (2·SPREAD·T_IN) nearly matches the gap between
+   adjacent numerals (SPREAD·(2/12)·(1−T_IN)) — even spacing, small break at the
+   centre for the moon. */
+const T_IN=0.09, SPREAD=263, NY0=684, NDROP=70;
+const DOT_DY=14;                 // white index dot under each numeral
+/* The figures ride the arch but stay nearer upright than its normal: a full
+   cant would swing the umbrella and the raised hat clean off the dial. */
+const CANT=0.22;
+const tOfHour=v=>1-(v/12)*(1-T_IN);
+const tOfMin =v=>1-(v/60)*(1-T_IN);
+const numPos=(t,side)=>[CX+side*SPREAD*t, NY0+NDROP*t*t];
+
+/* A figure stands on the deck directly below its numeral, canted with the arch. */
+function deckAt(x){
+  const s=Math.max(-1,Math.min(1,(x-BX)/R_DECK));
+  const a=Math.asin(s)*180/Math.PI;
+  return {a:a*CANT, p:pb(a,R_DECK)};
+}
+
+/* ---------------- bezel ---------------- */
+(function bezel(){
+  const g=$("bezelStones"), N=68, R=396, s=18;
+  for(let i=0;i<N;i++){
+    const a=(i/N)*360-90, x=CX+R*Math.cos(rad(a)), y=CY+R*Math.sin(rad(a));
+    el("circle",{cx:x,cy:y,r:s,fill:"url(#dia)"},g);
+    const f=el("g",{transform:`translate(${x} ${y}) rotate(${a})`,
+      stroke:"#a8b1c2","stroke-width":".9",fill:"none",opacity:".5"},g);
+    for(let k=0;k<8;k++){
+      const t=k*45, r2=s*0.66;
+      el("line",{x1:s*0.3*Math.cos(rad(t)),y1:s*0.3*Math.sin(rad(t)),
+        x2:r2*Math.cos(rad(t)),y2:r2*Math.sin(rad(t))},f);
+    }
+    el("circle",{cx:0,cy:0,r:s*0.3,fill:"none",stroke:"#bcc5d5","stroke-width":"1"},f);
+    el("circle",{cx:x-s*.28,cy:y-s*.3,r:s*.16,fill:"#fff",opacity:".7"},g);
+    // bead-set grains between the stones
+    const b=(i+0.5)/N*360-90;
+    el("circle",{cx:CX+(R+s*0.82)*Math.cos(rad(b)),cy:CY+(R+s*0.82)*Math.sin(rad(b)),
+      r:2.6,fill:"#fdfdff"},g);
+    el("circle",{cx:CX+(R-s*0.82)*Math.cos(rad(b)),cy:CY+(R-s*0.82)*Math.sin(rad(b)),
+      r:2.6,fill:"#fdfdff"},g);
+  }
+})();
+
+/* crown fluting */
+(function crown(){
+  const g=$("crownRidges");
+  for(let i=0;i<13;i++){
+    const y=904+i*6;
+    el("line",{x1:1395,y1:y,x2:1431,y2:y,stroke:"#aab3c1","stroke-width":"3",
+      "stroke-linecap":"round"},g);
+  }
+})();
+
+/* ---------------- city skyline ---------------- */
+(function city(){
+  const g=$("city");
+  const blocks=[
+    [572,842,132,270,"#5d7189"],[698,780,104,332,"#43556e"],[790,748,108,364,"#66798f"],
+    [862,812, 74,300,"#37475d"],
+    [1064,752,104,360,"#647890"],[1160,808, 96,304,"#41536b"],[1248,776,112,336,"#5a6e86"],
+    [1342,838, 96,274,"#394960"]
+  ];
+  blocks.forEach(([x,y,w,h,c])=>{
+    el("rect",{x,y,width:w,height:h,fill:c},g);
+    el("rect",{x,y,width:w,height:7,fill:"#94a6bd",opacity:".55"},g);
+    el("rect",{x,y,width:9,height:h,fill:"#8397ae",opacity:".35"},g);
+    const cols=Math.max(1,Math.floor(w/44)), rows=Math.floor(h/78);
+    for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){
+      if((i*2+j)%4===3) continue;
+      el("rect",{x:x+16+i*44,y:y+34+j*78,width:22,height:36,rx:2,
+        fill:"#0d1727",opacity:".9"},g);
+    }
+  });
+  // chimneys against the sky
+  [[716,780],[906,748],[1148,752],[1310,776]].forEach(([x,y])=>{
+    el("rect",{x,y:y-30,width:24,height:34,fill:"#33435a"},g);
+  });
+})();
+
+/* ---------------- stars ---------------- */
+(function stars(){
+  const g=$("stars");
+  const white=[[838,646],[880,724],[812,700],[1130,650],[1112,706],[1156,742],
+    [900,600],[1040,640],[760,760],[1240,700],[1284,742],[706,700],
+    [946,690],[1004,668],[860,662],[1196,668]];
+  white.forEach(([x,y],i)=>{
+    const r=i%3===0?6:4;
+    el("circle",{cx:x,cy:y,r,fill:"#eef4ff",opacity:".92"},g);
+  });
+  const blue=[[1104,632],[1132,700],[1108,752],[1170,786],[830,644],[792,690],[864,752]];
+  blue.forEach(([x,y])=>{
+    el("circle",{cx:x,cy:y,r:8,fill:"#5f86c4",opacity:".8"},g);
+  });
+})();
+
+/* ---------------- retrograde numeral scales ---------------- */
+(function scales(){
+  const h=$("scaleHours"), m=$("scaleMins");
+  const mark=(g,x,y,label)=>{
+    const t=el("text",{x,y},g); t.textContent=label;
+    el("circle",{cx:x,cy:y+DOT_DY,r:4,fill:"#f6f9ff"},g);
+  };
+  for(let v=0;v<=12;v+=2){
+    const [x,y]=numPos(tOfHour(v),-1);
+    mark(h,x,y,String(v));
+  }
+  for(let v=0;v<=60;v+=10){
+    const [x,y]=numPos(tOfMin(v),+1);
+    mark(m,x,y,String(v));
+  }
+})();
+
+/* ---------------- the span ---------------- */
+(function span(){
+  const g=$("span");
+  const a=A_SPAN;
+  const d=[
+    "M",fmt(pb(-a,R_DECK)),
+    "A",R_DECK,R_DECK,0,0,1,fmt(pb(a,R_DECK)),
+    "L",fmt(pb(a,R_SOFFIT)),
+    "A",R_SOFFIT,R_SOFFIT,0,0,0,fmt(pb(-a,R_SOFFIT)),
+    "Z"].join(" ");
+  el("path",{d,fill:"url(#frost)"},g);
+  // top rail highlight
+  el("path",{d:["M",fmt(pb(-a,R_DECK-4)),"A",R_DECK-4,R_DECK-4,0,0,1,
+    fmt(pb(a,R_DECK-4))].join(" "),fill:"none",stroke:"#ffffff","stroke-width":"9"},g);
+  // springing line under the arcade
+  el("path",{d:["M",fmt(pb(-a,R_SOFFIT+34)),"A",R_SOFFIT+34,R_SOFFIT+34,0,0,1,
+    fmt(pb(a,R_SOFFIT+34))].join(" "),fill:"none",stroke:"#b9bfca","stroke-width":"3",
+    opacity:".8"},g);
+  // soffit edge
+  el("path",{d:["M",fmt(pb(-a,R_SOFFIT+3)),"A",R_SOFFIT+3,R_SOFFIT+3,0,0,1,
+    fmt(pb(a,R_SOFFIT+3))].join(" "),fill:"none",stroke:"#8f96a3","stroke-width":"3",
+    opacity:".7"},g);
+})();
+
+/* balustrade openings cut through the deck */
+(function arcade(){
+  const g=$("arcade");
+  const N=15, step=6.1, w=2.3, r0=R_SOFFIT+44, r1=R_SOFFIT+96, rTop=R_SOFFIT+124;
+  for(let i=0;i<N;i++){
+    const a=(i-(N-1)/2)*step;
+    const d=["M",fmt(pb(a-w,r0)),
+             "L",fmt(pb(a-w,r1)),
+             "Q",fmt(pb(a,rTop)),fmt(pb(a+w,r1)),
+             "L",fmt(pb(a+w,r0)),
+             "A",r0,r0,0,0,0,fmt(pb(a-w,r0)),"Z"].join(" ");
+    el("path",{d,fill:"#070d1a"},g);
+  }
+  // slightly taller arches where the span springs from the abutments
+  [-45.5,45.5].forEach(a=>{
+    const w2=3.2, r0=R_SOFFIT+10, r1=R_SOFFIT+72, rT=R_SOFFIT+104;
+    const d=["M",fmt(pb(a-w2,r0)),"L",fmt(pb(a-w2,r1)),
+             "Q",fmt(pb(a,rT)),fmt(pb(a+w2,r1)),
+             "L",fmt(pb(a+w2,r0)),
+             "A",r0,r0,0,0,0,fmt(pb(a-w2,r0)),"Z"].join(" ");
+    el("path",{d,fill:"#070d1a"},g);
+  });
+})();
+
+/* ---------------- railing under the arch ---------------- */
+(function railing(){
+  const g=$("railing");
+  const x0=804,x1=1136,top=y=>1062+Math.pow((y-970)/210,2)*26;
+  el("path",{d:`M${x0} ${top(x0)} Q 970 1054 ${x1} ${top(x1)}`,"stroke-width":"7"},g);
+  el("path",{d:`M${x0} ${top(x0)+16} Q 970 1070 ${x1} ${top(x1)+16}`,"stroke-width":"3.5",
+    opacity:".7"},g);
+  const n=13;
+  for(let i=0;i<n;i++){
+    const x=x0+(x1-x0)*(i/(n-1));
+    const y=top(x)-6;
+    el("line",{x1:x,y1:y,x2:x,y2:1186,"stroke-width":"7"},g);
+    el("circle",{cx:x,cy:y-9,r:6,fill:"#93aac6",stroke:"none"},g);
+  }
+  el("path",{d:`M${x0} 1182 Q 970 1198 ${x1} 1182`,"stroke-width":"6",opacity:".85"},g);
+})();
+
+/* ---------------- foliage ---------------- */
+(function foliage(){
+  const g=$("foliage");
+  const puff=(x,y,r,c,o)=>el("circle",{cx:x,cy:y,r,fill:c,opacity:o},g);
+  el("rect",{x:700,y:1200,width:520,height:150,fill:"#111e33"},g);
+  const seed=[[758,1232,44],[806,1216,54],[858,1226,46],[906,1210,56],
+              [958,1204,60],[1012,1212,52],[1062,1204,56],[1112,1218,48],
+              [1162,1232,44],[880,1250,50],[1042,1252,48],[970,1246,54]];
+  seed.forEach(([x,y,r],i)=>puff(x,y,r,i%2?"#0f1c2f":"#152741",1));
+  seed.forEach(([x,y,r],i)=>puff(x-r*.28,y-r*.34,r*.34,"#1e3350",.45));
+})();
+
+/* ---------------- the two figures ---------------- */
+/* local space: feet at (0,0), up is -y, scaled so nothing exceeds R_DECK+170 */
+const W="url(#wgFlat)", EDGE="#9aa2b0";
+function buildLady(g){
+  const s=el("g",{transform:"scale(0.85)"},g);
+  // umbrella held overhead
+  el("line",{x1:-12,y1:-186,x2:-12,y2:-116,stroke:"#eef0f5","stroke-width":"4.5",
+    "stroke-linecap":"round"},s);
+  el("path",{d:"M-52 -152 Q-48 -186 -12 -193 Q24 -186 28 -152 "+
+               "Q20 -142 12 -152 Q4 -142 -4 -152 Q-12 -142 -20 -152 "+
+               "Q-28 -142 -36 -152 Q-44 -142 -52 -152 Z",fill:W,
+    stroke:EDGE,"stroke-width":"1.6"},s);
+  el("path",{d:"M-12 -193 L-12 -150 M-34 -189 L-26 -150 M10 -189 L2 -150",
+    stroke:EDGE,"stroke-width":"1.2",opacity:".65",fill:"none"},s);
+  el("line",{x1:-12,y1:-193,x2:-12,y2:-206,stroke:"#eef0f5","stroke-width":"4",
+    "stroke-linecap":"round"},s);
+  // full skirt, cinched to a narrow waist
+  el("path",{d:"M-38 6 C-35 -32 -21 -62 -8 -82 L8 -82 C21 -62 35 -32 38 6 "+
+               "C14 15 -14 15 -38 6 Z",fill:W,stroke:EDGE,"stroke-width":"1.6"},s);
+  el("path",{d:"M-14 -76 C-13 -40 -12 -14 -11 8 M2 -78 C3 -40 4 -14 4 10",
+    stroke:EDGE,"stroke-width":"1.1",fill:"none",opacity:".45"},s);
+  // bodice — shoulders out, waist pinched in
+  el("path",{d:"M-9 -82 C-11 -94 -14 -100 -15 -106 Q0 -114 15 -106 "+
+               "C14 -100 11 -94 9 -82 Z",fill:W,stroke:EDGE,"stroke-width":"1.4"},s);
+  el("path",{d:"M-8 -84 Q0 -88 8 -84",stroke:EDGE,"stroke-width":"1.2",
+    fill:"none",opacity:".55"},s);
+  // arm reaching up to the handle
+  el("path",{d:"M-12 -98 Q-16 -108 -12 -120",stroke:"#eef0f5","stroke-width":"8",
+    fill:"none","stroke-linecap":"round"},s);
+  // ponytail, swept back off her nape
+  el("path",{d:"M-3 -128 C-16 -126 -24 -116 -25 -104 C-26 -94 -22 -86 -17 -82 "+
+               "C-21 -90 -21 -99 -17 -106 C-13 -114 -6 -119 -1 -120 Z",
+    fill:"#dde1e9",stroke:EDGE,"stroke-width":"1.1"},s);
+  el("circle",{cx:-4,cy:-128,r:5.5,fill:"#c9cfda"},s);   // the tie
+  // head + swept fringe
+  el("circle",{cx:12,cy:-120,r:17,fill:W},s);
+  el("path",{d:"M-5 -119 Q-6 -143 12 -143 Q30 -143 30 -119 Q29 -129 20 -131 "+
+               "Q7 -135 -1 -128 Q-4 -125 -5 -119 Z",fill:"#dde1e9"},s);
+}
+function buildGent(g){
+  const s=el("g",{transform:"scale(0.85)"},g);
+  // top hat raised in greeting
+  el("path",{d:"M18 -146 L21 -178 L41 -178 L44 -146 Z",fill:W,
+    stroke:EDGE,"stroke-width":"1.6"},s);
+  el("rect",{x:10,y:-151,width:42,height:9,rx:4.5,fill:W,stroke:EDGE,
+    "stroke-width":"1.2"},s);
+  el("path",{d:"M11 -104 Q22 -122 29 -142",stroke:"#eef0f5","stroke-width":"8",
+    fill:"none","stroke-linecap":"round"},s);
+  // tailcoat over trousers
+  el("path",{d:"M-10 -106 Q0 -113 10 -106 L20 -64 L23 8 L6 8 L2 -38 L-2 8 L-20 8 "+
+               "L-18 -64 Z",fill:W,stroke:EDGE,"stroke-width":"1.6"},s);
+  el("path",{d:"M-18 -64 L-26 -6 L-12 -6 L-11 -64 Z",fill:W,stroke:EDGE,
+    "stroke-width":"1.3"},s);
+  el("path",{d:"M0 -100 L0 -50",stroke:EDGE,"stroke-width":"1.2",opacity:".5"},s);
+  // head + hair
+  el("circle",{cx:-10,cy:-122,r:16,fill:W},s);
+  el("path",{d:"M-27 -124 Q-27 -145 -10 -145 Q7 -145 7 -126 Q1 -136 -11 -135 "+
+               "Q-22 -134 -27 -124 Z",fill:"#dde1e9"},s);
+}
+buildLady($("lady")); buildGent($("gent"));
+
+/* ================= atomic time sync (multi-source consensus) ================= */
+const params=new URLSearchParams(location.search);
+const simAt=params.get("at")?Date.parse(params.get("at")):null;
+const SYNC={offset:0,rtt:null,source:null,synced:false,state:simAt?"sim":"syncing"};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function timedFetch(url,opts){
+  const ctl=new AbortController();
+  const kill=setTimeout(()=>ctl.abort(),5000);
+  return fetch(url,Object.assign({cache:"no-store",signal:ctl.signal},opts))
+    .finally(()=>clearTimeout(kill));
+}
+async function sampleWorldTime(){
+  const t0=Date.now();
+  const res=await timedFetch("https://worldtimeapi.org/api/timezone/Etc/UTC");
+  const t1=Date.now();
+  if(!res.ok)throw new Error("http "+res.status);
+  const j=await res.json();
+  const server=Date.parse(j.utc_datetime);
+  if(!Number.isFinite(server))throw new Error("bad payload");
+  return {offset:server+(t1-t0)/2-t1,rtt:t1-t0};
+}
+async function sampleTimeApiIo(){
+  const t0=Date.now();
+  const res=await timedFetch("https://timeapi.io/api/Time/current/zone?timeZone=Etc%2FUTC");
+  const t1=Date.now();
+  if(!res.ok)throw new Error("http "+res.status);
+  const j=await res.json();
+  const m=/^([^.]+)(?:\.(\d+))?/.exec(j.dateTime||"");
+  if(!m)throw new Error("bad payload");
+  const server=Date.parse(m[1]+"Z")+(m[2]?Math.round(Number("0."+m[2])*1000):0);
+  if(!Number.isFinite(server))throw new Error("bad payload");
+  return {offset:server+(t1-t0)/2-t1,rtt:t1-t0};
+}
+async function sampleOrigin(){
+  if(location.protocol==="file:")throw new Error("no origin");
+  const url=()=>location.pathname+"?ntp="+Math.random();
+  let prev=null,last=null;
+  for(let i=0;i<9;i++){
+    const t0=Date.now();
+    const res=await timedFetch(url(),{method:"HEAD"});
+    const t1=Date.now();
+    const dh=res.headers.get("date");
+    if(!dh)throw new Error("no date header");
+    const D=Date.parse(dh);
+    if(!Number.isFinite(D))throw new Error("bad date header");
+    if(prev!==null&&D>prev)return {offset:D-(t0+t1)/2,rtt:(t1-t0)+130};
+    prev=D;last={D,t0,t1};
+    await sleep(130);
+  }
+  return {offset:last.D+500-(last.t0+last.t1)/2,rtt:1000};
+}
+async function getBest(fn,n){
+  const s=[];
+  for(let i=0;i<n;i++){s.push(await fn()); if(i<n-1)await sleep(150);}
+  return s.reduce((a,b)=>a.rtt<b.rtt?a:b);
+}
+let failCount=0;
+async function doSync(){
+  if(simAt)return;
+  SYNC.state=SYNC.synced?SYNC.state:"syncing";
+  const [wta,org,tio]=await Promise.allSettled([
+    getBest(sampleWorldTime,2), sampleOrigin(), getBest(sampleTimeApiIo,2)]);
+  const cands=[];
+  if(wta.status==="fulfilled")cands.push(["WORLDTIMEAPI",wta.value]);
+  if(org.status==="fulfilled")cands.push(["ORIGIN HTTP",org.value]);
+  if(tio.status==="fulfilled")cands.push(["TIMEAPI.IO",tio.value]);
+  const agree=(a,b)=>Math.abs(a.offset-b.offset)<1500;
+  let pick=null;
+  if(cands.length===1){
+    pick=cands[0];
+    if(pick[0]==="TIMEAPI.IO"&&Math.abs(pick[1].offset)>5000)pick=null;
+  }else if(cands.length>1){
+    pick=cands.find(c=>cands.some(o=>o!==c&&agree(c[1],o[1])))
+      ||cands.find(c=>c[0]==="ORIGIN HTTP")||cands[0];
+  }
+  if(pick){
+    Object.assign(SYNC,{offset:pick[1].offset,rtt:pick[1].rtt,
+      source:pick[0],synced:true,state:"ok"});
+    failCount=0; setTimeout(doSync,10*60*1000); return;
+  }
+  SYNC.synced=false; SYNC.state="fail"; failCount++;
+  setTimeout(doSync,Math.min(300000,30000*Math.pow(2,failCount-1)));
+}
+const trueNow=()=>simAt??(Date.now()+SYNC.offset);
+
+/* ================= the kiss trigger ================= */
+/* Click the bridge at any time: the two snap together and kiss, then drift
+   slowly back to wherever the time has moved on to. The clock itself never
+   stops or skips — only the figures are borrowed for the length of the kiss. */
+const PUSH={at:0, IN:260, HOLD:5000, OUT:2400};  // snappy in, 5 s held, slow out
+PUSH.total=PUSH.IN+PUSH.HOLD+PUSH.OUT;
+const easeOut =k=>1-Math.pow(1-k,3);             // fast then settling — the snap
+const easeSlow=k=>k*k*(3-2*k);                   // gentle both ends — the return
+function pushBlend(now){
+  if(!PUSH.at)return 0;
+  const e=now-PUSH.at;
+  if(e<0||e>PUSH.total){PUSH.at=0;return 0;}
+  if(e<PUSH.IN)return easeOut(e/PUSH.IN);
+  if(e<PUSH.IN+PUSH.HOLD)return 1;
+  return 1-easeSlow((e-PUSH.IN-PUSH.HOLD)/PUSH.OUT);
+}
+(function(){
+  const g=$("span");
+  g.style.cursor="pointer";
+  el("title",{},g).textContent="Touch the bridge — they meet and kiss";
+  g.addEventListener("click",ev=>{
+    ev.stopPropagation();                 // never counts toward the triple-click
+    PUSH.at=performance.now();
+  });
+})();
+
+/* ================= retrograde motion ================= */
+/* A real retrograde hand does not glide back — a spring snaps it to zero in a
+   fraction of a second. We detect the wrap and play that flyback explicitly. */
+function makeHand(range){
+  return {prev:null, flyFrom:0, flyAt:0, FLY:420,
+    read(v,now){
+      if(this.prev!==null && v<this.prev-range*0.5){
+        this.flyFrom=this.prev; this.flyAt=now;
+      }
+      this.prev=v;
+      const e=now-this.flyAt;
+      if(this.flyAt && e<this.FLY){
+        const k=e/this.FLY;
+        const ease=1-Math.pow(1-k,3);
+        return this.flyFrom+(v-this.flyFrom)*ease;
+      }
+      return v;
+    }};
+}
+const hHand=makeHand(12), mHand=makeHand(60);
+
+const ladyG=$("lady"), gentG=$("gent");
+
+function frame(){
+  const d=new Date(trueNow());
+  const sub=d.getSeconds()+d.getMilliseconds()/1000;
+  const rawH=(d.getHours()%12)+d.getMinutes()/60+sub/3600;   // 0..12
+  const rawM=d.getMinutes()+sub/60;                           // 0..60
+
+  const perf=performance.now();
+  const hv=hHand.read(rawH,perf);
+  const mv=mHand.read(rawM,perf);
+
+  // the lovers meet over the last three minutes of the hour, :57 to :60
+  const kissNatural=Math.max(0,Math.min(1,(rawM-57)/1.2));
+  const blend=Math.max(kissNatural,pushBlend(perf));
+
+  const th=T_IN+(tOfHour(hv)-T_IN)*(1-blend);
+  const tm=T_IN+(tOfMin(mv) -T_IN)*(1-blend);
+  const dh=deckAt(CX-SPREAD*th), dm=deckAt(CX+SPREAD*tm);
+  ladyG.setAttribute("transform",
+    `translate(${dh.p[0].toFixed(2)} ${dh.p[1].toFixed(2)}) rotate(${dh.a.toFixed(3)})`);
+  gentG.setAttribute("transform",
+    `translate(${dm.p[0].toFixed(2)} ${dm.p[1].toFixed(2)}) rotate(${dm.a.toFixed(3)})`);
+
+  // metadata lives in the tab title, so the dial stays clean
+  const hh=String(d.getHours()).padStart(2,"0");
+  const mm=String(d.getMinutes()).padStart(2,"0");
+  const ss=String(d.getSeconds()).padStart(2,"0");
+  const tag = SYNC.state==="ok"   ? "atomic · "+SYNC.source.toLowerCase()
+    : SYNC.state==="sim"  ? "simulated"
+    : SYNC.state==="fail" ? "device clock"
+    : "syncing…";
+  document.title=`${hh}:${mm}:${ss} — ${tag}`;
+
+  requestAnimationFrame(frame);
+}
+
+/* ================= triple-click background ================= */
+/* Notion embeds this page in an iframe with no way to pass its theme in, and
+   Notion's sandbox can silently block localStorage — so persistence writes to
+   localStorage AND a cookie, each wrapped so a throw in one doesn't stop the
+   other. Same gesture and behaviour as the other clocks. */
+const BG_KEY='pontNotionDark';
+function saveDark(on){
+  const s=on?'1':'0';
+  try{localStorage.setItem(BG_KEY,s);}catch(e){}
+  try{document.cookie=BG_KEY+'='+s+';max-age=31536000;path=/;SameSite=Lax';}catch(e){}
+}
+function loadDark(){
+  try{const v=localStorage.getItem(BG_KEY);if(v!==null)return v==='1';}catch(e){}
+  try{const m=document.cookie.match(new RegExp('(?:^|;\\s*)'+BG_KEY+'=([^;]*)'));
+      if(m)return m[1]==='1';}catch(e){}
+  return false;
+}
+function applyDarkBg(on){
+  document.documentElement.classList.toggle('dark-bg',on);
+  document.body.classList.toggle('dark-bg',on);
+}
+if(loadDark())applyDarkBg(true);
+(function(){
+  let clicks=[];
+  document.querySelector('figure').addEventListener('click',()=>{
+    const t=performance.now();
+    clicks=clicks.filter(x=>t-x<700);
+    clicks.push(t);
+    if(clicks.length>=3){
+      clicks=[];
+      const on=!document.body.classList.contains('dark-bg');
+      applyDarkBg(on); saveDark(on);
+    }
+  });
+})();
+
+requestAnimationFrame(frame);
+doSync();
+</script>
+</body>
+</html>
