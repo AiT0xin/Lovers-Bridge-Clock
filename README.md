@@ -67,10 +67,11 @@ The tab title carries the state — `20:41:03 — atomic · origin http`,
 
 ## Controls
 
-- **Touch the bridge** — at any time at all, the two snap together and kiss for
-  5 s, then drift slowly back to wherever the time has moved on to (snappy in,
-  gentle 2.4 s return). The clock never stops, skips, or runs fast: only the
-  figures are borrowed, for ~7.7 s. The crown is decorative and not interactive.
+- **Press the pusher** (~8 o'clock) — at any time at all, the two snap together
+  and kiss for 5 s, then drift slowly back to wherever the time has moved on to
+  (snappy in, gentle 2.4 s return). The clock never stops, skips, or runs fast:
+  only the figures are borrowed, for ~7.7 s. The crown is decorative and not
+  interactive.
 - **Triple-click anywhere** — toggles the dark backing, same gesture and
   persistence as the other clocks. Notion embeds this in an iframe with no way
   to pass its theme in, and its sandbox can silently block `localStorage`, so
@@ -79,7 +80,7 @@ The tab title carries the state — `20:41:03 — atomic · origin http`,
 - `?at=2026-07-23T11:59:57` — freeze the dial at an arbitrary instant.
 
 Dial only — no strap, no lugs, no caption. The SVG viewBox is cropped to the
-case plus the crown, so it drops straight into an embed.
+case plus the crown and pusher, so it drops straight into an embed.
 
 ## Note on branding
 
